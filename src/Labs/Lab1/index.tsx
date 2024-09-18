@@ -169,7 +169,7 @@ export default function Lab1 () {
                 <br />
                 <img id="wd-arrow"
                     width="400px"
-                    src="https://static.wikia.nocookie.net/marvel_dc/images/3/3e/Oliver_Queen_Arrow_005.png/revision/latest?cb=20171104055930" 
+                    src="https://wallpapers.com/images/featured/green-arrow-7fxabozek6nvsry9.jpg" 
                     alt="arrow"
                 />
                 <br />
