@@ -64,7 +64,7 @@ export default function KanbasNavigation() {
                 <LiaCogSolid className={`fs-1 ${location.pathname === '/Kanbas/Labs' ? 'text-danger' : 'text-white'}`} /><br />
                 Labs
             </Link>     
-            <a href="http://localhost:3000/#/Labs" id="wd-signout-link" 
+            <a href="https://a2--kanbas-clone.netlify.app/#/Labs" id="wd-signout-link" 
                 className={`list-group-item text-center border-0 
                     ${location.pathname === '/Labs' ? 'bg-white text-danger' : 'bg-black text-white'}`}>
                 <FaSignOutAlt className={`fs-1 ${location.pathname === '/Labs' ? 'text-danger' : 'text-white'}`} /> <br />
