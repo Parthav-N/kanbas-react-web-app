@@ -38,7 +38,7 @@ export default function Assignments() {
                     </div>
                     <div className="assignment-content text-start flex-grow-1"> 
                         <h3 className="assignment-title mb-0">
-                            <a href="http://localhost:3000/#/Kanbas/Courses/1234/Assignments/123" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <a href="https://a2--kanbas-clone.netlify.app/#/Kanbas/Courses/1234/Assignments/123" style={{ textDecoration: 'none', color: 'inherit' }}>
                                 A1 - ENV + HTML
                             </a>
                         </h3>
@@ -61,7 +61,7 @@ export default function Assignments() {
                     </div>
                     <div className="assignment-content text-start flex-grow-1">  
                         <h3 className="assignment-title mb-0">
-                            <a href="http://localhost:3000/#/Kanbas/Courses/1234/Assignments/123" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <a href="https://a2--kanbas-clone.netlify.app/#/Kanbas/Courses/1234/Assignments/123" style={{ textDecoration: 'none', color: 'inherit' }}>
                                 A2 - CSS + BOOTSTRAP
                             </a>
                         </h3>
@@ -84,7 +84,7 @@ export default function Assignments() {
                     </div>
                     <div className="assignment-content text-start flex-grow-1">  
                         <h3 className="assignment-title mb-0">
-                            <a href="http://localhost:3000/#/Kanbas/Courses/1234/Assignments/123" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <a href="https://a2--kanbas-clone.netlify.app/#/Kanbas/Courses/1234/Assignments/123" style={{ textDecoration: 'none', color: 'inherit' }}>
                                 A3 - JAVASCRIPT + REACT
                             </a>
                         </h3>
