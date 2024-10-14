@@ -1,17 +1,29 @@
 import React from 'react';
+import { useParams, Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles.css';
+import * as db from "../../Database"; 
 
 export default function AssignmentEditor() {
+    const { aid, cid } = useParams(); 
+    const { assignments } = db; 
+
+    const assignment = assignments.find(assignment => assignment._id === aid);
+
+    if (!assignment) {
+        return <div>Assignment not found</div>;
+    }
+
     return (
         <div className="container mt-4">
             <form id="wd-assignments-editor">
                 <div className="form-group">
                     <label htmlFor="wd-name" className='mb-2'>Assignment Name</label>
-                    <input id="wd-name" className="form-control" value="A1 - ENV + HTML" />
+                    <input id="wd-name" className="form-control" defaultValue={assignment.title} />
                 </div> <br/>
                 <div className="form-group mb-4">
-                    <div id="wd-description" className="form-control" style={{ height: 'auto' }}>
+                    <label htmlFor="wd-description" className='mb-2'>Description</label>
+                    <div id="wd-description" className="form-control" style={{ height: 'auto', whiteSpace: 'pre-wrap' }}>
                         The assignment is <a href="" style={{ color: 'red' }}>available online</a>. <br /><br />
                         Submit a link to the landing page of your Web application running on Netlify. <br /><br />
                         The landing page should include the following:
@@ -27,7 +39,7 @@ export default function AssignmentEditor() {
                 <div className="form-group row mb-4 justify-content-center text-right">
                     <label htmlFor="wd-points" className="col-sm-2 col-form-label" style={{ textAlign: 'right' }}>Points</label>
                     <div className="col-sm-2">
-                        <input id="wd-points" className="form-control" type="number" value={100} style={{ width: '390px' }} />
+                        <input id="wd-points" className="form-control" type="number" defaultValue={100} style={{ width: '390px' }} />
                     </div>
                 </div>
                 <div className="form-group row mb-4 justify-content-center text-right">
@@ -45,7 +57,7 @@ export default function AssignmentEditor() {
                             <option value="Percentage">Percentage</option>
                         </select>
                     </div>
-                </div>       
+                </div>
                 <div className="form-group mb-4" style={{ textAlign: 'right' }}>
                     <label htmlFor="wd-submission-type" className="col-form-label" style={{ display: 'inline-block', marginBottom: '10px', marginRight: '10px' }}>Submission Type</label>
                     <div style={{ border: '1px solid #ced4da', borderRadius: '5px', padding: '10px', display: 'inline-block', width: '390px', verticalAlign: 'top' }}>
@@ -111,10 +123,9 @@ export default function AssignmentEditor() {
                 <hr style={{ margin: '20px 0' }} />
                 
                 <div style={{ textAlign: 'right' }}>
-                    <button type="button" className="btn btn-secondary" style={{ marginRight: '10px' }}>Cancel</button>
+                    <Link to={`#/Kanbas/Courses/${cid}/Assignments`} className="btn btn-secondary" style={{ marginRight: '10px' }}>Cancel</Link>
                     <button type="button" className="btn btn-danger" style={{ backgroundColor: 'red' }}>Save</button>
                 </div>
-
             </form>
         </div>
     );
