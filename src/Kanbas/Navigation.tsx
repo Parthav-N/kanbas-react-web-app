@@ -1,9 +1,10 @@
 import { AiOutlineDashboard } from "react-icons/ai";
 import { IoCalendarOutline } from "react-icons/io5";
 import { LiaBookSolid, LiaCogSolid } from "react-icons/lia";
-import { FaInbox, FaRegCircle, FaSignOutAlt } from "react-icons/fa";
+import { FaInbox, FaSignOutAlt } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom"; // Import useLocation for detecting active route
 import React from "react";
+import { FaRegCircleUser } from "react-icons/fa6";
 
 export default function KanbasNavigation() {
     const { pathname } = useLocation();
@@ -15,7 +16,9 @@ export default function KanbasNavigation() {
         { label: "Labs", path: "/Kanbas/Labs", icon: LiaCogSolid },
     ];
 
-    const isActive = (path: string) => pathname === path ? 'bg-white text-danger' : 'bg-black text-white';
+    const isActive = (path: string) => {
+        return pathname.startsWith(path) ? 'bg-white text-danger' : 'bg-black text-white';
+    };
 
     return (
         <div id="wd-kanbas-navigation" 
@@ -30,8 +33,8 @@ export default function KanbasNavigation() {
             <Link 
                 to="/Kanbas/Account/Signin" 
                 id="wd-account-link" 
-                className={`list-group-item text-center border-0 ${isActive('/Kanbas/Account/Signin')}`}>
-                <FaRegCircle className={`fs-1 ${isActive('/Kanbas/Account/Signin')}`} />
+                className={`list-group-item text-center border-0 ${isActive('/Kanbas/Account')}`}>
+                <FaRegCircleUser className={`fs-1 ${isActive('/Kanbas/Account')}`} />
                 Account
             </Link>
 

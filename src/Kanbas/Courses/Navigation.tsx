@@ -16,8 +16,7 @@ export default function CoursesNavigation() {
     { label: "People", path: `/Kanbas/Courses/${cid}/People`, icon: FaUsers },
   ];
 
-  const isActive = (path: string) => 
-    location.pathname === path ? 'active text-black border-start border-3 border-primary' : 'text-danger border-0';
+  const isActive = (path: string) => location.pathname === path;
 
   return (
     <div id="wd-courses-navigation" className="wd list-group fs-5 rounded-0">
@@ -25,8 +24,28 @@ export default function CoursesNavigation() {
         <Link 
           key={path} 
           to={path} 
-          className={`list-group-item ${isActive(path)}`}
+          className={`list-group-item d-flex align-items-center ${isActive(path) ? 'text-black' : 'text-danger'}`}
+          style={{
+            paddingLeft: '1.5rem',
+            backgroundColor: 'transparent', // Ensure transparent background
+            border: 'none', // Remove default border
+            position: 'relative', // For absolute positioning of the line
+            height: 'auto', // Set height to auto to avoid box sizing
+          }}
         >
+          {isActive(path) && (
+            <span 
+              style={{
+                position: 'absolute',
+                left: 0,
+                top: '50%',
+                transform: 'translateY(-50%)',
+                height: '100%',
+                width: '3px',
+                backgroundColor: 'black',
+              }}
+            />
+          )}
           <Icon className="me-2" /> {label}
         </Link>
       ))}
