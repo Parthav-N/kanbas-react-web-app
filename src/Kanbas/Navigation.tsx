@@ -31,7 +31,7 @@ export default function KanbasNavigation() {
             </a>
 
             <Link 
-                to="/Kanbas/Account/Signin" 
+                to="/Kanbas/Account/Profile" 
                 id="wd-account-link" 
                 className={`list-group-item text-center border-0 ${isActive('/Kanbas/Account')}`}>
                 <FaRegCircleUser className={`fs-1 ${isActive('/Kanbas/Account')}`} />
