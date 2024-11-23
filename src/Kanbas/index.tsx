@@ -12,6 +12,7 @@ import Session from "./Account/Session";
 import * as db from "./Database";
 import * as courseClient from "./Courses/client";
 import * as userClient from "./Account/client";
+import TOC from "./TOC";
 
 export default function Kanbas() {
   const [courses, setCourses] = useState<any[]>([]);
@@ -62,6 +63,7 @@ export default function Kanbas() {
   };
   return (
     <div id="wd-kanbas">
+      <TOC />
       <KanbasNavigation />
       <div className="wd-main-content-offset p-3">
         <Routes>
