@@ -16,6 +16,8 @@ export default function Labs () {
                 <p>Section - 3</p>
                 <p>CRN: 20596</p>
                 <p>Github: <a href="https://github.com/Parthav-N/kanbas-react-web-app">Link</a></p>
+                <p>Server: <a href="https://kanbas-node-server-app-u0y0.onrender.com/">Link</a></p>
+                <p>Node Server Github: <a href="https://github.com/Parthav-N/kanbas-node-server-app">Link</a></p>
                 <h1>Labs</h1>
                 <TOC />
                 <Routes>
