@@ -63,7 +63,6 @@ export default function Kanbas() {
   };
   return (
     <div id="wd-kanbas">
-      <TOC />
       <KanbasNavigation />
       <div className="wd-main-content-offset p-3">
         <Routes>
