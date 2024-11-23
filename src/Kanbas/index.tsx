@@ -12,7 +12,6 @@ import Session from "./Account/Session";
 import * as db from "./Database";
 import * as courseClient from "./Courses/client";
 import * as userClient from "./Account/client";
-import TOC from "./TOC";
 
 export default function Kanbas() {
   const [courses, setCourses] = useState<any[]>([]);
