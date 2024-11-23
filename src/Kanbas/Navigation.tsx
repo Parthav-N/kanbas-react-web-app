@@ -46,7 +46,7 @@ export default function KanbasNavigation() {
                 </Link>
             ))}
 
-            <a href="https://a2--kanbas-clone.netlify.app/#/Labs" id="wd-signout-link" 
+            <a href="https://a5--kanbas-clone.netlify.app/#/Labs" id="wd-signout-link" 
                 className={`list-group-item text-center border-0 ${isActive('/Labs')}`}>
                 <FaSignOutAlt className={`fs-1 ${isActive('/Labs')}`} />
                 <br />
