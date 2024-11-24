@@ -44,7 +44,7 @@ export default function Kanbas() {
     image: "/images/reactjs.jpg",
     description: "New Description",
   });
-  const addNewCourse = async () => {
+  const addNewCourse = async (course: string) => {
     const newCourse = await userClient.createCourse(course);
     setCourses([...courses, newCourse]);
   };

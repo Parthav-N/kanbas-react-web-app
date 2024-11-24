@@ -16,7 +16,7 @@ export default function Dashboard({
   courses: any[];
   course: any;
   setCourse: (course: any) => void;
-  addNewCourse: () => void;
+  addNewCourse: (course: any) => void;
   deleteCourse: (course: any) => void;
   updateCourse: () => void;
 }) {
@@ -122,7 +122,7 @@ export default function Dashboard({
       alert("Please fill in both name and description");
       return;
     }
-    addNewCourse();
+    addNewCourse(course);
     setCourse({
       _id: "0",
       name: "",
