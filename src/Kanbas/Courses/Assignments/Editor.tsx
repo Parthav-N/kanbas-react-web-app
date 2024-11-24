@@ -1,103 +1,250 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { AssignmentState, Assignment } from './types';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './styles.css';
-import { addAssignment, updateAssignment } from './reducer';
+import { useParams, useNavigate } from "react-router";
+import { Link, useLocation } from "react-router-dom";
+//import * as db from "../../Database";
+import { addAssignment, setAssignment, setAssignments, updateAssignment } from "./reducer";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import * as assignmentClient from "./client";
 
 export default function AssignmentEditor() {
-    const { aid, cid } = useParams<{ aid: string, cid: string }>();
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const { assignments } = useSelector((state: { assignmentReducer: AssignmentState }) => state.assignmentReducer);
-
-    const [assignment, setAssignment] = useState<Assignment>({
-        _id: '',
-        title: '',
-        description: '',
-        points: 100,
-        dueDate: '',
-        availableFromDate: '',
-        availableUntilDate: '',
-        course: cid || ''
-    });
-
-    useEffect(() => {
-        if (aid !== 'new') {
-            const existingAssignment = assignments.find((a: Assignment) => a._id === aid);
-            if (existingAssignment) {
-                setAssignment(existingAssignment);
-            }
-        }
-    }, [aid, assignments, cid]);
-
-    const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
-        const { name, value } = e.target;
-        setAssignment((prev) => ({ ...prev, [name]: value }));
-    };
-
-    const handleSave = () => {
-        if (aid === 'new') {
-            const newAssignment = { ...assignment, _id: Date.now().toString() }; // Ensure all fields are included
-            console.log('Creating new assignment:', newAssignment);
-            dispatch(addAssignment(newAssignment)); // Use the correct action creator
-        } else {
-            console.log('Updating assignment:', assignment);
-            dispatch(updateAssignment(assignment)); // Use the correct action creator
-        }
-        navigate(`/Kanbas/Courses/${cid}/Assignments`);
-    };
-
-    const handleCancel = () => {
-        navigate(`/Kanbas/Courses/${cid}/Assignments`);
-    };
-
-    return (
-        <div className="container mt-4">
-            <form id="wd-assignments-editor">
-                <div className="form-group">
-                    <label htmlFor="wd-name" className='mb-2'>Assignment Name</label>
-                    <input id="wd-name" name="title" className="form-control" value={assignment.title} onChange={handleInputChange} />
-                </div>
-                <br/>
-                <div className="form-group mb-4">
-                    <label htmlFor="wd-description" className='mb-2'>Description</label>
-                    <textarea id="wd-description" name="description" className="form-control" value={assignment.description} onChange={handleInputChange} style={{ height: 'auto', whiteSpace: 'pre-wrap' }} />
-                </div>
-                <div className="form-group row mb-4 justify-content-center text-right">
-                    <label htmlFor="wd-points" className="col-sm-2 col-form-label" style={{ textAlign: 'right' }}>Points</label>
-                    <div className="col-sm-2">
-                        <input id="wd-points" name="points" className="form-control" type="number" value={assignment.points} onChange={handleInputChange} style={{ width: '390px' }} />
-                    </div>
-                </div>
-                
-                <div className="form-group mb-4" style={{ textAlign: 'right' }}>
-                    <label htmlFor="assign-section" className="col-form-label" style={{ display: 'inline-block', marginBottom: '10px', marginRight: '10px' }}>Assign</label>
-                    <div style={{ border: '1px solid #ced4da', borderRadius: '5px', padding: '10px', display: 'inline-block', width: '390px', verticalAlign: 'top' }}>
-                        <div style={{ textAlign: 'left', marginBottom: '10px' }}>
-                            <label className="col-form-label" style={{ display: 'block', textAlign: 'left', marginBottom: '10px', fontWeight: 'bold' }}>Due</label>
-                            <input type="datetime-local" name="dueDate" value={assignment.dueDate} onChange={handleInputChange} className="form-control" style={{ width: '360px' }} />
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                            <div style={{ width: '48%' }}>
-                                <label className="col-form-label" style={{ display: 'block', textAlign: 'left', marginBottom: '10px', fontWeight: 'bold' }}>Available From</label>
-                                <input type="datetime-local" name="availableFromDate" value={assignment.availableFromDate} onChange={handleInputChange} className="form-control" />
-                            </div>
-                            <div style={{ width: '48%' }}>
-                                <label className="col-form-label" style={{ display: 'block', textAlign: 'left', marginBottom: '10px', fontWeight: 'bold' }}>Until</label>
-                                <input type="datetime-local" name="availableUntilDate" value={assignment.availableUntilDate} onChange={handleInputChange} className="form-control" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr style={{ margin: '20px 0' }} />
-                
-                <div style={{ textAlign: 'right' }}>
-                    <button type="button" className="btn btn-secondary" style={{ marginRight: '10px' }} onClick={handleCancel}>Cancel</button>
-                    <button type="button" className="btn btn-danger" style={{ backgroundColor: 'red' }} onClick={handleSave}>Save</button>
-                </div>
-            </form>
+  const { aid } = useParams();
+  const { cid } = useParams();
+  //const assignment = db.assignments;
+  const { assignment } = useSelector((state: any) => state.assignmentReducer);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const disabled = currentUser.role !== "FACULTY";
+  const handleSave = async () => {
+    if (aid === "new") {
+      await assignmentClient.createNewAssignment(assignment);
+      dispatch(
+        addAssignment({
+          ...assignment,
+        })
+      );
+    } else {
+      await assignmentClient.updateAssignment(assignment);
+      dispatch(
+        updateAssignment({
+          ...assignment,
+        })
+      );
+    }
+    navigate(`/Kanbas/Courses/${cid}/Assignments`);
+  };
+  return (
+    <div id="wd-assignments-editor" className="me-4">
+      <div>
+        <label htmlFor="wd-name" className="mb-2">
+          <b>Assignment Name</b>
+        </label>
+        <input
+          disabled={disabled} 
+          id="wd-name"
+          defaultValue={assignment.title}
+          className="form-control mb-4"
+          onChange={(e) => dispatch(setAssignment({ ...assignment, title: e.target.value }))}
+        />
+        <textarea
+          disabled={disabled}
+          id="wd-description"
+          className="form-control mb-4"
+          onChange={(e) => dispatch(setAssignment({ ...assignment, description: e.target.value }))}
+        >
+          {assignment.description}
+        </textarea>
+        <div className="row">
+          <label htmlFor="wd-points" className="col">
+            <span className="float-end me-2">Points</span>
+          </label>
+          <input
+            disabled={disabled}
+            id="wd-points"
+            defaultValue={assignment.points}
+            className="form-control mb-3 col"
+            onChange={(e) => dispatch(setAssignment({ ...assignment, points: e.target.value }))}
+          />
         </div>
-    );
+        <div className="row">
+          <label htmlFor="wd-group" className="col">
+            <span className="float-end me-2">Assignment Group</span>
+          </label>
+          <select
+            disabled={disabled}
+            id="wd-group"
+            name="Assignment Groups"
+            className="form-select mb-3 col"
+          >
+            <option value="option1">ASSIGNMENTS</option>
+          </select>
+        </div>
+        <div className="row">
+          <label htmlFor="wd-display-grade-as" className="col">
+            <span className="float-end me-2">Display Grade as</span>
+          </label>
+          <select
+            disabled={disabled}
+            id="wd-display-grade-as"
+            name="Display grade as"
+            className="form-select mb-3 col"
+          >
+            <option value="option1">Percentage</option>
+            <option value="option2">Letter</option>
+          </select>
+        </div>
+        <div className="row">
+          <label htmlFor="wd-submission-type" className="col">
+            <span className="float-end me-2">Submission type</span>
+          </label>
+          <div className="border border-secondary rounded p-3 mb-3 col">
+            <select
+              disabled={disabled}
+              id="wd-submission-type"
+              name="submission type"
+              className="form-select mb-3"
+            >
+              <option value="option1">Online</option>
+              <option value="option2">In person</option>
+            </select>
+
+            <label className="mb-2">
+              <b>Online Entry Options</b>
+            </label>
+            <br />
+
+            <input
+              disabled={disabled}
+              type="checkbox"
+              name="check-genre"
+              id="wd-text-entry"
+              className="form-check-input me-2"
+            />
+            <label htmlFor="wd-text-entry" className="form-check-label mb-2">
+              Text Entry
+            </label>
+            <br />
+
+            <input
+              disabled={disabled}
+              type="checkbox"
+              name="check-genre"
+              id="wd-website-url"
+              className="form-check-input me-2"
+            />
+            <label htmlFor="wd-webiste-url" className="form-check-label mb-2">
+              Website URL
+            </label>
+            <br />
+
+            <input
+              disabled={disabled}
+              type="checkbox"
+              name="check-genre"
+              id="wd-media-recordings"
+              className="form-check-input me-2"
+            />
+            <label htmlFor="wd-media-recordings" className="form-check-label mb-2">
+              Media Recordings
+            </label>
+            <br />
+
+            <input
+              disabled={disabled}
+              type="checkbox"
+              name="check-genre"
+              id="wd-student-annotation"
+              className="form-check-input me-2"
+            />
+            <label htmlFor="wd-student-annotation" className="form-check-label mb-2">
+              Student Annotation
+            </label>
+            <br />
+
+            <input
+              disabled={disabled}
+              type="checkbox"
+              name="check-genre"
+              id="wd-file-upload"
+              className="form-check-input me-2"
+            />
+            <label htmlFor="wd-file-upload" className="form-check-label mb-2">
+              File Uploads
+            </label>
+          </div>
+        </div>
+        <div className="row">
+          <label htmlFor="wd-assign-to" className="col">
+            <span className="float-end me-2">Assign</span>
+          </label>
+          <div className="border border-secondary rounded p-3 mb-3 col">
+            <label htmlFor="wd-assign-to">
+              <b>Assign to</b>
+            </label>
+            <br />
+            <input
+              disabled={disabled}
+              id="wd-assign-to"
+              value="Everyone"
+              className="form-control mb-2"
+            />
+
+            <label htmlFor="wd-due-date">
+              <b>Due</b>
+            </label>
+            <br />
+            <input
+              disabled={disabled}
+              type="datetime-local"
+              id="wd-due-date"
+              defaultValue={assignment.due}
+              onChange={(e) => dispatch(setAssignment({ ...assignment, due: e.target.value }))}
+              className="form-control mb-2"
+            />
+
+            <div className="row">
+              <div className="col">
+                <label htmlFor="wd-available-from">
+                  <b>Available From</b>
+                </label>
+                <input
+                  disabled={disabled}
+                  type="datetime-local"
+                  id="wd-available-from"
+                  defaultValue={assignment.unlock}
+                  className="form-control mb-2"
+                  onChange={(e) =>
+                    dispatch(setAssignment({ ...assignment, unlock: e.target.value }))
+                  }
+                />
+              </div>
+              <div className="col">
+                <label htmlFor="wd-available-until">
+                  <b>Until</b>
+                </label>
+                <input
+                  disabled={disabled}
+                  type="datetime-local"
+                  id="wd-available-until"
+                  defaultValue={assignment.due}
+                  className="form-control mb-2"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+      {!disabled && (
+        <>
+          <button onClick={handleSave} className="btn btn-lg btn-danger me-1 float-end">
+            Save
+          </button>
+          <Link to={`/Kanbas/Courses/${cid}/Assignments`}>
+            <button className="btn btn-lg btn-secondary me-1 float-end">Cancel</button>
+          </Link>
+        </>
+      )}
+    </div>
+  );
 }

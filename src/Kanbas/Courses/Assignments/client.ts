@@ -1,40 +1,26 @@
-// src/Kanbas/Assignments/client.ts
 import axios from "axios";
+const REMOTE_SERVER = process.env.REACT_APP_REMOTE_SERVER;
+const COURSES_API = `${REMOTE_SERVER}/api/courses`;
+const ASSIGNMENTS_API = `${REMOTE_SERVER}/api/assignments`;
 
-const API_BASE = process.env.REACT_APP_API_BASE;
-const ASSIGNMENTS_API = `${API_BASE}/api/assignments`;
-
-export const AssignmentClient = {
-    createAssignment: async (courseId: string, assignment: any) => {
-        const response = await axios.post(
-            `${API_BASE}/courses/${courseId}/assignments`,
-            assignment
-        );
-        return response.data;
-    },
-
-    findAssignments: async (courseId: string) => {
-        const response = await axios.get(
-            `${API_BASE}/courses/${courseId}/assignments`
-        );
-        return response.data;
-    },
-
-    findAssignmentById: async (assignmentId: string) => {
-        const response = await axios.get(`${ASSIGNMENTS_API}/${assignmentId}`);
-        return response.data;
-    },
-
-    updateAssignment: async (assignmentId: string, assignment: any) => {
-        const response = await axios.put(
-            `${ASSIGNMENTS_API}/${assignmentId}`,
-            assignment
-        );
-        return response.data;
-    },
-
-    deleteAssignment: async (assignmentId: string) => {
-        const response = await axios.delete(`${ASSIGNMENTS_API}/${assignmentId}`);
-        return response.data;
-    }
+export const fetchAssignmentsForCourse = async (courseId: string) => {
+  const { data } = await axios.get(`${COURSES_API}/${courseId}/assignments`);
+  return data;
 };
+export const deleteAssignment = async (assignmentId: string) => {
+  const response = await axios.delete(`${ASSIGNMENTS_API}/${assignmentId}`);
+  return response.data;
+};
+export const createNewAssignment = async (assignment: any) => {
+  const response = await axios.post(`${ASSIGNMENTS_API}/create`, assignment);
+  return response.data;
+};
+export const updateAssignment = async (assignment: any) => {
+  const { data } = await axios.put(`${ASSIGNMENTS_API}/${assignment._id}`, assignment);
+  return data;
+};
+export const fetchAssignments = async () => {
+  const { data } = await axios.get(ASSIGNMENTS_API);
+  return data;
+};
+

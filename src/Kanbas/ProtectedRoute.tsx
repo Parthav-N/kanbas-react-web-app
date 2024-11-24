@@ -1,25 +1,20 @@
-// In ProtectedRoute.tsx
-import React from 'react';
-import { Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { Navigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-interface ProtectedRouteProps {
-  children: React.ReactNode;
-  courseId: string;
-}
-
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, courseId }) => {
-  const user = useSelector((state: any) => state.user);
-  
-  // Check if the user is enrolled in the course
-  const isEnrolled = user.enrollments.includes(courseId);
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+  const { cid } = useParams(); 
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const { enrollments } = useSelector((state: any) => state.enrollmentReducer);
+  const isEnrolled = enrollments.some(
+    (enrollment: any) => enrollment.user === currentUser?._id && enrollment.course === cid
+  );
 
   if (!isEnrolled) {
-    // Redirect to dashboard if not enrolled
-    return <Navigate to="/Dashboard" replace />;
+    return <Navigate to="/Kanbas/Dashboard" />;
   }
 
-  return <>{children}</>;
+  return children;
 };
 
 export default ProtectedRoute;

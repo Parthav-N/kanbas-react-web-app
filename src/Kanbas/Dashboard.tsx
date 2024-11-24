@@ -16,7 +16,7 @@ export default function Dashboard({
   courses: any[];
   course: any;
   setCourse: (course: any) => void;
-  addNewCourse: (course: any) => void;
+  addNewCourse: () => void;
   deleteCourse: (course: any) => void;
   updateCourse: () => void;
 }) {
@@ -122,7 +122,7 @@ export default function Dashboard({
       alert("Please fill in both name and description");
       return;
     }
-    addNewCourse(course);
+    addNewCourse();
     setCourse({
       _id: "0",
       name: "",
@@ -168,7 +168,7 @@ export default function Dashboard({
             <button
               className="btn btn-primary float-end"
               id="wd-add-new-course-click"
-              onClick={addNewCourse}
+              onClick={handleAddCourse}
               disabled={course._id !== "0"}
             >
               Add
@@ -230,7 +230,7 @@ export default function Dashboard({
                   to={`/Kanbas/Courses/${courseItem._id}/Home`}
                   className="wd-dashboard-course-link text-decoration-none text-dark"
                 >
-                  <img src="/images/reactjs.png" width="100%" height={160} alt="course" />
+                  <img src="/images/reactjs.jpg" width="100%" height={160} alt="course" />
                   <div className="card-body">
                     <h5 className="wd-dashboard-course-title card-title">{courseItem.name}</h5>
                     <p
