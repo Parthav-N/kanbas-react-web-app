@@ -28,10 +28,10 @@ export default function Modules() {
     const { modules } = useSelector((state: any) => state.modulesReducer);
     const dispatch = useDispatch();
 
-    const handleAddModule = () => {
+    const handleAddModule = (moduleId: string) => {
         dispatch(addModule({ name: moduleName, course: cid }));
         setModuleName("");
-    };
+    };      
 
     const handleDeleteModule = (moduleId: string) => {
         dispatch(deleteModule(moduleId));

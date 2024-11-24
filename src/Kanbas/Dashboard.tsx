@@ -168,7 +168,7 @@ export default function Dashboard({
             <button
               className="btn btn-primary float-end"
               id="wd-add-new-course-click"
-              onClick={handleAddCourse}
+              onClick={addNewCourse}
               disabled={course._id !== "0"}
             >
               Add
