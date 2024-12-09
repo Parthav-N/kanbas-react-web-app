@@ -62,9 +62,12 @@ export default function Dashboard({
       )}
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h2 id="wd-dashboard-published">
-          {enrolling
-            ? `Published Courses (${courses.length})`
-            : `Enrolled Courses (${courses.length})`}
+          {currentUser.role == "STUDENT" 
+            ? enrolling
+              ? `Published Courses (${courses.length})`
+              : `Enrolled Courses (${courses.length})`
+            : `Published Courses (${courses.length})`
+          }
         </h2>
         {currentUser.role === "STUDENT" && (
           <button
@@ -91,7 +94,7 @@ export default function Dashboard({
                 >
                   <img
                     style={{ objectFit: "contain" }}
-                    src={`/${course.imagePath}`}
+                    src={`/images/reactjs.png`}
                     width="100%"
                     height={160}
                   />
