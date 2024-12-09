@@ -38,6 +38,7 @@ export default function Kanbas() {
   const findCoursesForUser = async () => {
     try {
       const courses = await userClient.findCoursesForUser(currentUser._id);
+      console.log(courses)
       setCourses(courses);
     } catch (error) {
       console.error(error);
@@ -75,6 +76,7 @@ export default function Kanbas() {
   const addNewCourse = async () => {
     const newCourse = await courseClient.createCourse(course);
     setCourses([...courses, newCourse]);
+    await userClient.enrollIntoCourse(currentUser._id, newCourse._id);
   };
   const deleteCourse = async (courseId) => {
     const status = await courseClient.deleteCourse(courseId);

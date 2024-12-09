@@ -22,7 +22,7 @@ export default function Signin() {
     <div id="wd-signin-screen">
       <h3>Sign in</h3>
       <input
-        defaultValue={credentials.username}
+        // defaultValue={credentials.username}
         onChange={(e) =>
           setCredentials({ ...credentials, username: e.target.value })
         }
@@ -31,7 +31,7 @@ export default function Signin() {
         id="wd-username"
       />
       <input
-        defaultValue={credentials.password}
+        // defaultValue={credentials.password}
         onChange={(e) =>
           setCredentials({ ...credentials, password: e.target.value })
         }

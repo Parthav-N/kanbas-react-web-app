@@ -8,11 +8,12 @@ import AssignmentEditor from "./Assignments/Editor";
 import { FaAlignJustify } from "react-icons/fa";
 import PeopleTable from "./People/Table";
 import { useParams } from "react-router";
+import CoursePeople from "./People/CoursePeople";
 
 export default function Courses({ courses }) {
   const { pathname } = useLocation();
   const { cid } = useParams();
-  const course = courses.find((course) => course._id === cid);
+  const course = courses.find((course) => course._id === cid); 
   
   return (
     <div id="wd-courses">
@@ -36,7 +37,7 @@ export default function Courses({ courses }) {
             <Route path="Assignments/:aid" element={<AssignmentEditor />} />
             <Route path="Quizzes" element={<h2>Quizzes</h2>} />
             <Route path="Grades" element={<h2>Grades</h2>} />
-            <Route path="People" element={<PeopleTable/>}/>
+            <Route path="People" element={<CoursePeople/>}/>
           </Routes>
         </div>
       </div>

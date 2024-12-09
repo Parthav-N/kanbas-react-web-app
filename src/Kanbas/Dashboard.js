@@ -91,7 +91,7 @@ export default function Dashboard({
                 >
                   <img
                     style={{ objectFit: "contain" }}
-                    src={`images/reactjs.png`}
+                    src={`/${course.imagePath}`}
                     width="100%"
                     height={160}
                   />
